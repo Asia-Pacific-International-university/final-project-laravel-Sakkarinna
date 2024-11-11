@@ -2,10 +2,16 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgentController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware(['auth', 'role:admin']);
+Route::get('/agent/dashboard', [AgentController::class, 'dashboard'])->name('agent.dashboard')->middleware(['auth', 'role:agent']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
