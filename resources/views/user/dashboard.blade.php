@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    agent dashboard
+    user dashboard
 </body>
 </html>

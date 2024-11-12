@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AgentController extends Controller
+class UserController extends Controller
 {
     public function dashboard()
     {
-        return view('agent/dashboard');
+        return view('user/dashboard');
     }
 }

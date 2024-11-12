@@ -22,16 +22,16 @@ class UserSeeder extends Seeder
                 'role' => 'admin',
             ],
             [
-                'name' => 'Agent',
-                'email' => 'agent@gmail.com',
-                'password' => MashHash::make('password'),
-                'role' => 'agent',
-            ],
-            [
                 'name' => 'User',
                 'email' => 'user@gmail.com',
                 'password' => MashHash::make('password'),
                 'role' => 'user',
+            ],
+            [
+                'name' => 'Guest',
+                'email' => 'guest@gmail.com',
+                'password' => MashHash::make('password'),
+                'role' => 'guest',
             ]
         ]);
     }
