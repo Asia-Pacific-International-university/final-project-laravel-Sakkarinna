@@ -8,6 +8,6 @@ class GuestController extends Controller
 {
     public function dashboard()
     {
-        return view('guest/dashboard');
+        return view('dashboard');
     }
 }
