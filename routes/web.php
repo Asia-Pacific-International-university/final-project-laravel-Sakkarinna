@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,6 +42,8 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
 Route::middleware('guest')->group(function () {
     Route::get('/welcome', [GuestController::class, 'dashboard'])->name('guest.welcome');
 });
+
+Route::get('user_list', [TestController::class, 'users_list'])->name('user.list');
 
 // Route::resource('articles', ArticleController::class);
 
