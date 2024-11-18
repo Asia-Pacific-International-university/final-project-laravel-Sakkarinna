@@ -46,4 +46,6 @@ Route::middleware('guest')->group(function () {
 
 // Route::resource('categories', CategoryController::class);
 
+Route::get('/index', [UserController::class, 'index'])->name('index');
+
 require __DIR__.'/auth.php';

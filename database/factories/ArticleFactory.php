@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Article;
-use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,13 +16,15 @@ class ArticleFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    protected $model = Article::class;
+
+    public function definition()
     {
         return [
-            'title' => $this->faker->sentence,
-            'content' => $this->faker->paragraph,
-            'category_id' => Category::inRandomOrder()->first()->id,
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => User::factory(),
+            'title' => $this->faker->sentence(),
+            'content' => $this->faker->paragraphs(3, true),
+            'image_url' => $this->faker->imageUrl(640, 480, 'news', true, 'Article Image'),
         ];
     }
 }
