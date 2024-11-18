@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model
+class Like extends Model
 {
     use HasFactory;
 
     // Mass assignable attributes
     protected $fillable = [
         'user_id',
-        'title',
-        'content',
-        'image_url',
+        'article_id',
+        'comment_id',
     ];
 
     // Relationships
@@ -23,18 +22,13 @@ class Article extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categories()
+    public function article()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsTo(Article::class);
     }
 
-    public function likes()
+    public function comment()
     {
-        return $this->hasMany(Like::class);
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
+        return $this->belongsTo(Comment::class);
     }
 }

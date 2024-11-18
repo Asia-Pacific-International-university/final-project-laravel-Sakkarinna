@@ -4,15 +4,12 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Category;
+use App\Models\Follow;
 
-class CategorySeeder extends Seeder
+class FollowSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-        Category::factory(20)->create();
+        Follow::factory(50)->create();
     }
 }
