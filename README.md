@@ -2,13 +2,13 @@
 # Sakkarin News
 
 
-Sakkarin News is a news aggregation platform designed to provide users with news from authors that register on the platform and news from external sources like NewsCatcher News API
+Sakkarin News is a news aggregation platform designed to provide users with news from authors that register on the platform and news from external sources like [NewsCatcher News API](https://www.newscatcherapi.com/).
 ## Tech stack
 
 - **Frontend**: Blade template and Tailwindcss.(not implemented yet)
 - **Backend**: Laravel 11
 - **Database**: MySQL
-- **API**: NewsCatcher News API
+- **API**: [NewsCatcher News API](https://www.newscatcherapi.com/)
 ## How to run the project
 
 1. Install php and composer on your local machine or follow step in [laravel documentation](https://laravel.com/docs/11.x/installation)
