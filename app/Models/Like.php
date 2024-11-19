@@ -31,4 +31,9 @@ class Like extends Model
     {
         return $this->belongsTo(Comment::class);
     }
+
+    public function followedArticles()
+{
+    return $this->belongsToMany(Article::class, 'follows', 'follower_id', 'article_id');
+}
 }

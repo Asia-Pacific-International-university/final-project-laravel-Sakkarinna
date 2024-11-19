@@ -1,69 +1,32 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Article;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ArticleController extends Controller
 {
     public function index()
-    {
-        $articles = Article::all();
-        return view('articles.index', compact('articles'));
-    }
+{
+    $articles = Article::all();
 
-    // Show single article
-    public function show(Article $article)
-    {
-        return view('articles.show', compact('article'));
-    }
+    Log::info($articles);
 
-    // Show the form to create an article
-    public function create()
-    {
-        return view('articles.create');
-    }
+    return view('articles.all_articles', compact('articles'));
+}
 
-    // Store a new article
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-        ]);
 
-        Article::create($validated);
+public function show(Article $article)
+{
+    // Load the comments with the article
+    $comments = $article->comments()->withCount('likes')->get();
 
-        return redirect()->route('articles.index');
-    }
+    return view('articles.view_articles', compact('article', 'comments'));
+}
 
-    // Show the form to edit an article
-    public function edit(Article $article)
-    {
-        return view('articles.edit', compact('article'));
-    }
 
-    // Update an article
-    public function update(Request $request, Article $article)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-        ]);
-
-        $article->update($validated);
-
-        return redirect()->route('articles.index');
-    }
-
-    // Delete an article
-    public function destroy(Article $article)
-    {
-        $article->delete();
-
-        return redirect()->route('articles.index');
-    }
 }
