@@ -3,34 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profiles</title>
+    <title>Sakkarin News</title>
     <style>
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 10px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
-        .user-container {
+        header {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
             display: flex;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
         }
-        .user {
+        nav a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+        }
+        .content {
+            padding: 20px;
             text-align: center;
-            margin: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>User Profiles</h1>
+    <header>
+        <div class="logo">
+            <h1>Sakkarin News</h1>
+        </div>
+        <nav>
 
-    <div class="user-container">
-        @foreach($users as $user)
-            <div class="user">
-                <img src="{{ $user->profile_picture }}" alt="{{ $user->name }}'s Profile Picture" class="profile-pic">
-                <p>{{ $user->name }}</p>
-            </div>
-        @endforeach
+            <a href="{{ route('articles.index') }}">Articles</a>
+            @guest
+                <a href="{{ route('login') }}">Login</a>
+                <a href="{{ route('register') }}">Register</a>
+            @else
+
+                <a href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            @endguest
+        </nav>
+    </header>
+
+    <div class="content">
+        <h2>Welcome to Sakkarin News!</h2>
+        <p>Your one-stop news aggregator. Stay informed, stay updated!</p>
     </div>
 </body>
 </html>
