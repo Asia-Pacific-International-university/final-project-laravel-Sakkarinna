@@ -34,5 +34,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'newscatcher' => [
+        'api_key' => env('NEWSCATCHER_API_KEY'),
+    ],
+
 
 ];
