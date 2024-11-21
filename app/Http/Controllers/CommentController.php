@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Article;
@@ -20,4 +21,6 @@ class CommentController extends Controller
 
         return redirect()->route('articles.show', $article->id)->with('success', 'Comment added successfully.');
     }
+
+
 }

@@ -14,8 +14,23 @@
                 <p><small class="text-muted">Published: {{ $article->created_at->format('M d, Y') }}</small></p>
                 <div class="mb-3">{{ $article->content }}</div>
                 <div class="d-flex">
-                    <button class="btn btn-outline-primary me-2">Like</button>
-                    <button class="btn btn-outline-secondary me-2">Follow Author</button>
+                    <!-- Like Button -->
+                    <form action="{{ route('like', ['type' => 'article', 'id' => $article->id]) }}" method="POST" class="me-2">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-primary">
+                            {{ auth()->user() && auth()->user()->hasLikedArticle($article) ? 'Unlike' : 'Like' }} ({{ $article->likes_count }})
+                        </button>
+                    </form>
+
+                    <!-- Follow Author Button -->
+                    <form action="{{ route('authors.follow', $article->user->id) }}" method="POST" class="me-2">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-secondary">
+                            {{ auth()->user()->isFollowing($article->user) ? 'Unfollow Author' : 'Follow Author' }}
+                        </button>
+                    </form>
+
+                    <!-- Edit Button (only for the author) -->
                     @if (auth()->check() && auth()->id() == $article->user_id)
                         <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-warning">Edit</a>
                     @endif
@@ -48,10 +63,15 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <p>{{ $comment->content }}</p>
-                        <p class="text-muted">By {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}
-                        </p>
+                        <p class="text-muted">By {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}</p>
                         <div class="d-flex">
-                            <button class="btn btn-outline-primary btn-sm me-2">Like ({{ $comment->likes_count }})</button>
+                            <!-- Like Comment Button -->
+                            <form action="{{ route('like', ['type' => 'comment', 'id' => $comment->id]) }}" method="POST" class="me-2">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-primary btn-sm">
+                                    {{ auth()->user() && auth()->user()->hasLikedComment($comment) ? 'Unlike' : 'Like' }} ({{ $comment->likes_count }})
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

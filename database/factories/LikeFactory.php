@@ -23,22 +23,14 @@ class LikeFactory extends Factory
 
     public function definition()
     {
-        // By default, likes are for articles. Comment ID will be null.
-        return [
-            'user_id' => User::factory(),
-            'article_id' => Article::factory(), // Default to liking articles
-            'comment_id' => null, // Default is no comment associated
-        ];
-    }
+        // Randomly select the likeable model (either Article or Comment)
+        $likeableType = $this->faker->randomElement([Article::class, Comment::class]);
+        $likeable = $likeableType::inRandomOrder()->first();
 
-    // State for creating likes for comments
-    public function forComment()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'article_id' => null, // Remove association with articles
-                'comment_id' => Comment::factory(), // Link to a random comment
-            ];
-        });
+        return [
+            'user_id' => User::inRandomOrder()->first()->id,
+            'likeable_id' => $likeable ? $likeable->id : null,
+            'likeable_type' => $likeableType,
+        ];
     }
 }

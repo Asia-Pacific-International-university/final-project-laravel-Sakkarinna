@@ -4,20 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
     use HasFactory;
 
-    // Mass assignable attributes
     protected $fillable = [
         'name',
         'description',
     ];
 
-    // Relationships
-    public function articles()
+    /**
+     * Get the articles that belong to this category.
+     *
+     * @return HasMany
+     */
+    public function articles(): HasMany
     {
-        return $this->belongsToMany(Article::class);
+        return $this->hasMany(Article::class);
     }
 }

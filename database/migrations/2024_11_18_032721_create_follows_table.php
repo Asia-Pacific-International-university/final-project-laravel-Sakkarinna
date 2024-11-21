@@ -10,14 +10,16 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-    {
-        Schema::create('follows', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('follower_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('followed_id')->constrained('users')->onDelete('cascade');
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('follows', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade'); // User who follows
+        $table->unsignedBigInteger('followable_id'); // Can be an article or user ID
+        $table->string('followable_type'); // Distinguishes between user or article
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.

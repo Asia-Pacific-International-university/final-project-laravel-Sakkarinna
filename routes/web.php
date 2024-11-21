@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', [UserController::class, 'test'])->name('test');
+
 Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/index', [UserController::class, 'index'])->name('index');
@@ -39,15 +41,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/{user}/follow', [ProfileController::class, 'followUser'])->name('profile.follow');
 
     // User-specific actions
-    Route::post('/articles/{id}/like', [ArticleController::class, 'like'])->name('articles.like');
     Route::post('/articles/{id}/follow', [ArticleController::class, 'follow'])->name('articles.follow');
-    Route::post('/comments/{id}/like', [ArticleController::class, 'likeComment'])->name('comments.like');
 
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
     Route::patch('/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::post('/articles/{article}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+    // Like Article and Comment
+    Route::post('/like/{type}/{id}', [UserController::class, 'like'])->name('like');
+
+
+    // Follow Author
+    Route::post('/authors/{user}/follow', [UserController::class, 'follow'])->name('authors.follow');
+
+
 });
 
 // Admin routes
@@ -59,7 +68,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::patch('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-    Route::resource('articles', ArticleController::class);
+    // Route::resource('articles', ArticleController::class);
 
     // User management
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -73,7 +82,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 // User routes
 Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

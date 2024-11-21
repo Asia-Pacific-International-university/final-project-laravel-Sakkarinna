@@ -1,5 +1,6 @@
 import './bootstrap';
 import 'flowbite';
+import './dataTable';
 
 import Alpine from 'alpinejs';
 

@@ -1,12 +1,22 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Article;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function test()
+    {
+        $users = User::paginate(50);
+
+        return view('test', compact('users'));
+    }
+
     public function index()
     {
         $users = User::all();
@@ -76,4 +86,39 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
+
+
+    public function like($type, $id)
+{
+    $user = auth()->user();
+    $model = null;
+
+    // Determine the model type (either Article or Comment)
+    switch ($type) {
+        case 'article':
+            $model = Article::findOrFail($id);
+            break;
+        case 'comment':
+            $model = Comment::findOrFail($id);
+            break;
+        default:
+            abort(404, 'Invalid type provided.');
+    }
+
+    // Check if the user has already liked the model
+    if ($user->likes()->where('likeable_id', $model->id)
+        ->where('likeable_type', get_class($model))->exists()) {
+        $user->likes()->where('likeable_id', $model->id)
+            ->where('likeable_type', get_class($model))
+            ->delete();
+    } else {
+        $user->likes()->create([
+            'likeable_id' => $model->id,
+            'likeable_type' => get_class($model),
+        ]);
+    }
+
+    return redirect()->back();
+}
+
 }
