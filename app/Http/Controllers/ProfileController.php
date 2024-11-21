@@ -56,14 +56,6 @@ class ProfileController extends Controller
         return view('profiles.others_profile', compact('user', 'articles'));
     }
 
-    public function followUser(User $user)
-    {
-        $currentUser = auth()->user();
-        $currentUser->follows()->attach($user->id);
-
-        return redirect()->route('profile.others', $user->id)->with('success', 'You are now following ' . $user->name);
-    }
-
     // Update user profile
     public function update(Request $request)
     {

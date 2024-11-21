@@ -1,4 +1,3 @@
-<!-- resources/views/articles/view_articles.blade.php -->
 @extends('layouts.layout')
 
 @section('title', $article->title)
@@ -18,15 +17,23 @@
                     <form action="{{ route('like', ['type' => 'article', 'id' => $article->id]) }}" method="POST" class="me-2">
                         @csrf
                         <button type="submit" class="btn btn-outline-primary">
-                            {{ auth()->user() && auth()->user()->hasLikedArticle($article) ? 'Unlike' : 'Like' }} ({{ $article->likes_count }})
+                            Like ({{ $article->likes->count() }})
                         </button>
                     </form>
 
                     <!-- Follow Author Button -->
-                    <form action="{{ route('authors.follow', $article->user->id) }}" method="POST" class="me-2">
+                    <form action="{{ route('follow', ['type' => 'user', 'id' => $article->user->id]) }}" method="POST" class="me-2">
                         @csrf
                         <button type="submit" class="btn btn-outline-secondary">
-                            {{ auth()->user()->isFollowing($article->user) ? 'Unfollow Author' : 'Follow Author' }}
+                            {{ auth()->user() && auth()->user()->followings()->where('followable_id', $article->user->id)->where('followable_type', 'App\\Models\\User')->exists() ? 'Unfollow Author' : 'Follow Author' }}
+                        </button>
+                    </form>
+
+                    <!-- Follow Article Button -->
+                    <form action="{{ route('follow', ['type' => 'article', 'id' => $article->id]) }}" method="POST" class="me-2">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-secondary">
+                            {{ auth()->user() && auth()->user()->followedArticles()->where('followable_id', $article->id)->exists() ? 'Unfollow Article' : 'Follow Article' }}
                         </button>
                     </form>
 
@@ -69,7 +76,7 @@
                             <form action="{{ route('like', ['type' => 'comment', 'id' => $comment->id]) }}" method="POST" class="me-2">
                                 @csrf
                                 <button type="submit" class="btn btn-outline-primary btn-sm">
-                                    {{ auth()->user() && auth()->user()->hasLikedComment($comment) ? 'Unlike' : 'Like' }} ({{ $comment->likes_count }})
+                                    Like ({{ $comment->likes->count() }})
                                 </button>
                             </form>
                         </div>

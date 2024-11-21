@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\FollowController;
 
 
 
@@ -38,11 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile', [ProfileController::class, 'ownerProfile'])->name('profile.show');
     Route::get('/profile/{user}', [ProfileController::class, 'othersProfile'])->name('profile.others');
-    Route::post('/profile/{user}/follow', [ProfileController::class, 'followUser'])->name('profile.follow');
 
     // User-specific actions
-    Route::post('/articles/{id}/follow', [ArticleController::class, 'follow'])->name('articles.follow');
-
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
@@ -53,8 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/like/{type}/{id}', [UserController::class, 'like'])->name('like');
 
 
-    // Follow Author
-    Route::post('/authors/{user}/follow', [UserController::class, 'follow'])->name('authors.follow');
+    // Follow
+    Route::post('/follow/{type}/{id}', [FollowController::class, 'follow'])->name('follow');
 
 
 });
@@ -81,7 +79,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
 // User routes
 Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/dashboard', [ArticleController::class, 'index'])->name('user.dashboard');
 });
 
 require __DIR__ . '/auth.php';

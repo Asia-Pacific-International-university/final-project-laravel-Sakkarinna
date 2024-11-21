@@ -8,17 +8,11 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\Comment;
 
-
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Like>
  */
 class LikeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     protected $model = Like::class;
 
     public function definition()
@@ -27,9 +21,14 @@ class LikeFactory extends Factory
         $likeableType = $this->faker->randomElement([Article::class, Comment::class]);
         $likeable = $likeableType::inRandomOrder()->first();
 
+        // Ensure that there is at least one likeable model available
+        if (!$likeable) {
+            $likeable = $likeableType::factory()->create();
+        }
+
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
-            'likeable_id' => $likeable ? $likeable->id : null,
+            'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
+            'likeable_id' => $likeable->id,
             'likeable_type' => $likeableType,
         ];
     }

@@ -35,8 +35,9 @@ class Article extends Model
 
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'follows', 'article_id', 'follower_id');
+        return $this->morphToMany(User::class, 'followable', 'follows', 'followable_id', 'user_id');
     }
+
 
     // Custom Methods
 

@@ -74,46 +74,22 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    /**
-     * Get all followers of the user.
-     *
-     * @return BelongsToMany
-     */
-    public function followers(): BelongsToMany
+    public function followers()
     {
-        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id');
+        return $this->morphToMany(User::class, 'followable', 'follows', 'followable_id', 'user_id');
     }
 
-    /**
-     * Get all users the current user is following.
-     *
-     * @return BelongsToMany
-     */
-    public function followings(): BelongsToMany
+    public function followings()
     {
-        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
+        return $this->morphedByMany(User::class, 'followable', 'follows', 'user_id', 'followable_id');
     }
 
-    /**
-     * Get all articles the user is following.
-     *
-     * @return BelongsToMany
-     */
-    public function followedArticles(): BelongsToMany
+    public function followedArticles()
     {
-        return $this->belongsToMany(Article::class, 'follows', 'follower_id', 'article_id');
+        return $this->morphedByMany(Article::class, 'followable', 'follows', 'user_id', 'followable_id');
     }
 
-    /**
-     * Check if the user is following another user.
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function isFollowing(User $user): bool
-    {
-        return $this->followings()->where('followed_id', $user->id)->exists();
-    }
+
 
     /**
      * Check if the user has liked an article.

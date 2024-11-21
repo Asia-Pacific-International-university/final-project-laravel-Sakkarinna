@@ -10,12 +10,6 @@ class LikeSeeder extends Seeder
 {
     public function run()
     {
-        // Generate likes for articles
-        Like::factory()->count(50)->create();
-
-
-        // Generate likes for comments
-        Like::factory()->forComment()->count(20)->create();
-
+        Like::factory()->count(100)->create();
     }
 }
