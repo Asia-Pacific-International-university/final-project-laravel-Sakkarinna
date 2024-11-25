@@ -35,7 +35,7 @@ class Article extends Model
 
     public function followers()
     {
-        return $this->morphToMany(User::class, 'followable', 'follows', 'followable_id', 'user_id');
+        return $this->morphMany(Follow::class, 'followable');
     }
 
 

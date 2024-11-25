@@ -14,7 +14,8 @@
                 <div class="mb-3">{{ $article->content }}</div>
                 <div class="d-flex">
                     <!-- Like Button -->
-                    <form action="{{ route('like', ['type' => 'article', 'id' => $article->id]) }}" method="POST" class="me-2">
+                    <form action="{{ route('like', ['type' => 'article', 'id' => $article->id]) }}" method="POST"
+                        class="me-2">
                         @csrf
                         <button type="submit" class="btn btn-outline-primary">
                             Like ({{ $article->likes->count() }})
@@ -22,20 +23,23 @@
                     </form>
 
                     <!-- Follow Author Button -->
-                    <form action="{{ route('follow', ['type' => 'user', 'id' => $article->user->id]) }}" method="POST" class="me-2">
+                    <form action="{{ route('follow', ['type' => 'user', 'id' => $article->user->id]) }}" method="POST"
+                        class="me-2">
                         @csrf
                         <button type="submit" class="btn btn-outline-secondary">
-                            {{ auth()->user() && auth()->user()->followings()->where('followable_id', $article->user->id)->where('followable_type', 'App\\Models\\User')->exists() ? 'Unfollow Author' : 'Follow Author' }}
+                            {{ auth()->user() &&auth()->user()->followings()->where('followable_id', $article->user->id)->where('followable_type', 'App\\Models\\User')->exists()? 'Unfollow Author': 'Follow Author' }}
                         </button>
                     </form>
 
                     <!-- Follow Article Button -->
-                    <form action="{{ route('follow', ['type' => 'article', 'id' => $article->id]) }}" method="POST" class="me-2">
+                    <form action="{{ route('follow', ['type' => 'article', 'id' => $article->id]) }}" method="POST"
+                        class="me-2">
                         @csrf
                         <button type="submit" class="btn btn-outline-secondary">
-                            {{ auth()->user() && auth()->user()->followedArticles()->where('followable_id', $article->id)->exists() ? 'Unfollow Article' : 'Follow Article' }}
+                            {{ auth()->user() &&auth()->user()->followedArticles()->where('followable_id', $article->id)->exists()? 'Unfollow Article': 'Follow Article' }}
                         </button>
                     </form>
+
 
                     <!-- Edit Button (only for the author) -->
                     @if (auth()->check() && auth()->id() == $article->user_id)
@@ -70,10 +74,12 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <p>{{ $comment->content }}</p>
-                        <p class="text-muted">By {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}</p>
+                        <p class="text-muted">By {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}
+                        </p>
                         <div class="d-flex">
                             <!-- Like Comment Button -->
-                            <form action="{{ route('like', ['type' => 'comment', 'id' => $comment->id]) }}" method="POST" class="me-2">
+                            <form action="{{ route('like', ['type' => 'comment', 'id' => $comment->id]) }}" method="POST"
+                                class="me-2">
                                 @csrf
                                 <button type="submit" class="btn btn-outline-primary btn-sm">
                                     Like ({{ $comment->likes->count() }})

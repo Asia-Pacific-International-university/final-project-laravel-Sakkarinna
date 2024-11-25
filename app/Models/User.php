@@ -7,10 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -74,19 +75,42 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Users that this user is following.
+     */
+    public function followings()
+    {
+        return $this->morphToMany(
+            User::class,
+            'followable',
+            'follows',
+            'user_id',
+            'followable_id'
+        )->withPivot('followable_type');
+    }
+
+
+    /**
+     * Articles that this user is following.
+     */
+    public function followedArticles()
+{
+    return $this->morphedByMany(
+        Article::class,
+        'followable',
+        'follows',
+        'user_id',
+        'followable_id'
+    )->withPivot('followable_type');
+}
+
+
+     /**
+     * Users who follow this user.
+     */
     public function followers()
     {
         return $this->morphToMany(User::class, 'followable', 'follows', 'followable_id', 'user_id');
-    }
-
-    public function followings()
-    {
-        return $this->morphedByMany(User::class, 'followable', 'follows', 'user_id', 'followable_id');
-    }
-
-    public function followedArticles()
-    {
-        return $this->morphedByMany(Article::class, 'followable', 'follows', 'user_id', 'followable_id');
     }
 
 

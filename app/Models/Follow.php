@@ -10,28 +10,25 @@ class Follow extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'follower_id',
-        'followed_id',
-    ];
+    protected $fillable = ['user_id', 'followable_id', 'followable_type'];
 
     /**
      * Get the user that is following.
      *
      * @return BelongsTo
      */
-    public function follower(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'follower_id');
-    }
-
     /**
-     * Get the user that is being followed.
-     *
-     * @return BelongsTo
+     * Define the followable (polymorphic) relationship.
      */
-    public function followed(): BelongsTo
+    public function followable()
     {
-        return $this->belongsTo(User::class, 'followed_id');
+        return $this->morphTo();
+    }
+    /**
+     * Define the user relationship.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
