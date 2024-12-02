@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Dashboard')</title>
-    @vite(['resources/css/app.css','resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
 </head>
-<body class="bg-gray-100">
-    <header class="bg-dark text-white p-3 d-flex justify-content-between align-items-center">
-        <h1 class="h3">Sakkarin News - Admin</h1>
-        <nav>
-            <a href="{{ route('profile.show') }}" class="text-white me-3">Profile</a>
-            <a href="{{ route('logout') }}" class="text-white"
+<body class="bg-gray-100 h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
+        <h1 class="text-lg font-bold">Sakkarin News - Admin</h1>
+        <nav class="flex space-x-4">
+            <a href="{{ route('profile.show') }}" class="hover:underline">Profile</a>
+            <a href="{{ route('logout') }}" class="hover:underline"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 Logout
             </a>
@@ -23,65 +23,47 @@
         </nav>
     </header>
 
-    <div x-data="{ open: true }" class="flex">
+    <!-- Main Layout -->
+    <div x-data="{ open: true }" class="flex flex-grow">
         <!-- Sidebar -->
         <aside
             :class="open ? 'w-64' : 'w-20'"
-            class="bg-gray-800 min-h-screen text-gray-100 transition-all duration-300"
+            class="bg-gray-800 text-gray-100 transition-all duration-300 flex-shrink-0"
         >
             <div class="flex justify-between items-center p-4">
-                <h1
-                    x-show="open"
-                    class="text-lg font-bold tracking-wide whitespace-nowrap"
-                >
-                    Admin Panel
-                </h1>
+                <h1 x-show="open" class="text-lg font-bold tracking-wide">Admin Panel</h1>
                 <button @click="open = !open" class="text-gray-300 hover:text-white">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-6 h-6"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M3.75 5.25h16.5m-16.5 6h16.5m-16.5 6h16.5"
-                        />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5M3.75 12h16.5M3.75 18.75h16.5" />
                     </svg>
                 </button>
             </div>
 
-            <nav class="mt-6">
-                <ul class="space-y-4">
-                    <li>
-                        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-gray-700 transition rounded-md group">
-                            <div class="text-gray-300 group-hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 10l1.5 2h15l1.5-2M10 21V9l6 12" />
-                                </svg>
-                            </div>
-                            <span x-show="open" class="text-sm font-medium text-gray-300 group-hover:text-white">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('categories.index') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-gray-700 transition rounded-md group">
-                            <span x-show="open" class="text-sm font-medium text-gray-300 group-hover:text-white">Categories</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('articles.index') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-gray-700 transition rounded-md group">
-                            <span x-show="open" class="text-sm font-medium text-gray-300 group-hover:text-white">Articles</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('users.index') }}" class="flex items-center space-x-4 px-4 py-2 hover:bg-gray-700 transition rounded-md group">
-                            <span x-show="open" class="text-sm font-medium text-gray-300 group-hover:text-white">Users</span>
-                        </a>
-                    </li>
-                </ul>
+            <nav class="mt-6 space-y-4">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-4 py-2 px-4 hover:bg-gray-700 transition rounded-md group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-gray-300 group-hover:text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 10l1.5 2h15l1.5-2M10 21V9l6 12" />
+                    </svg>
+                    <span x-show="open" class="text-sm font-medium text-gray-300 group-hover:text-white">Dashboard</span>
+                </a>
+                <a href="{{ route('categories.index') }}" class="flex items-center space-x-4 py-2 px-4 hover:bg-gray-700 transition rounded-md group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-gray-300 group-hover:text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 11H4m15.5 5a.5.5 0 0 0 .5-.5V8a1 1 0 0 0-1-1h-3.75a1 1 0 0 1-.829-.44l-1.436-2.12a1 1 0 0 0-.828-.44H8a1 1 0 0 0-1 1M4 9v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-3.75a1 1 0 0 1-.829-.44L9.985 8.44A1 1 0 0 0 9.157 8H5a1 1 0 0 0-1 1Z" />
+                    </svg>
+                    <span x-show="open" class="text-sm font-medium text-gray-300 group-hover:text-white">Categories</span>
+                </a>
+                <a href="{{ route('articles.index') }}" class="flex items-center space-x-4 py-2 px-4 hover:bg-gray-700 transition rounded-md group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-gray-300 group-hover:text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 19V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v13H7a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M9 3v14m7 0v4" />
+                    </svg>
+                    <span x-show="open" class="text-sm font-medium text-gray-300 group-hover:text-white">Articles</span>
+                </a>
+                <a href="{{ route('users.index') }}" class="flex items-center space-x-4 py-2 px-4 hover:bg-gray-700 transition rounded-md group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-gray-300 group-hover:text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 12h4m-2 2v-4M4 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                    <span x-show="open" class="text-sm font-medium text-gray-300 group-hover:text-white">Users</span>
+                </a>
             </nav>
         </aside>
 

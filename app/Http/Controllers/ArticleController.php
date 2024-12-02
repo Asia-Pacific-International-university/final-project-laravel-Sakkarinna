@@ -17,8 +17,6 @@ class ArticleController extends Controller
     {
         $articles = Article::all();
 
-        Log::info($articles);
-
         return view('articles.all_articles', compact('articles'));
     }
 
