@@ -24,15 +24,19 @@ class UserFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition()
-    {
-        return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'password' => Hash::make('password'),
-            'role' => $this->faker->randomElement(['admin', 'user', 'guest']),
-            'profile_picture' => $this->faker->imageUrl(100, 100, 'people', true, 'Profile Picture'),
-        ];
-    }
+{
+    $gender = $this->faker->randomElement(['boy', 'girl']);
+    $username = $this->faker->userName;
+
+    return [
+        'name' => $this->faker->name(),
+        'email' => $this->faker->unique()->safeEmail(),
+        'password' => Hash::make('password'), // Default password
+        'role' => $this->faker->randomElement(['admin', 'user', 'guest']),
+        'profile_picture' => "https://avatar.iran.liara.run/public/{$gender}?username={$username}", // API for profile picture
+    ];
+}
+
 
     /**
      * Indicate that the model's email address should be unverified.

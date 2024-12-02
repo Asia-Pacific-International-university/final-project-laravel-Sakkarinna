@@ -13,8 +13,18 @@
 <body class="bg-gray-100 h-screen flex flex-col">
     <!-- Header -->
     <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
-        <h1 class="text-lg font-bold">Sakkarin News - Admin</h1>
+        <a href="/">
+            <img src="{{ asset('favicon.ico') }}" alt="Logo" class="h-8 w-8">
+        </a>
+        <h1 class="text-lg font-bold">Sakkarin News - Admin {{auth()->user()->name}}</h1>
         <nav class="flex space-x-4">
+            <div class="text-center mb-4">
+                <img
+                    src="{{ auth()->user()->profile_picture }}"
+                    alt="Profile Picture"
+                    class="w-12 h-12 rounded-full mx-auto border-2 border-blue-500"
+                >
+            </div>
             <a href="{{ route('profile.show') }}" class="hover:underline">Profile</a>
             <a href="{{ route('logout') }}" class="hover:underline"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

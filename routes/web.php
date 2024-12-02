@@ -17,6 +17,7 @@ Route::get('/', function () {
 // Public routes
 Route::middleware('auth')->group(function () {
     // Profile routes
+    Route::get('/profile/get', [ProfileController::class, 'getProfile'])->name('profile.get');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -70,7 +71,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // User management
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/register', [UserController::class, 'create'])->name('users.register');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');

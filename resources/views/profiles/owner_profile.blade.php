@@ -14,9 +14,15 @@
         <div class="flex justify-start mb-6">
             <a
                 href="{{ route('profile.edit') }}"
-                class="px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-green-700 transition duration-200"
+                class="mr-5 px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-green-700 transition duration-200"
             >
                 Edit Profile
+            </a>
+            <a
+                href="{{ route('profile.get') }}"
+                class="px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-green-700 transition duration-200"
+            >
+                Get Profile
             </a>
         </div>
 

@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
     <h1 class="text-3xl font-bold mb-6 text-center">Register User</h1>
-    <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+    <form id="register-user-form" action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
         @csrf
 
         <!-- Name -->
@@ -18,6 +18,7 @@
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
             >
+            <span id="name-error" class="text-red-500 text-sm hidden"></span>
         </div>
 
         <!-- Email -->
@@ -30,6 +31,7 @@
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
             >
+            <span id="email-error" class="text-red-500 text-sm hidden"></span>
         </div>
 
         <!-- Password -->
@@ -42,6 +44,7 @@
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
             >
+            <span id="password-error" class="text-red-500 text-sm hidden"></span>
         </div>
 
         <!-- Confirm Password -->
@@ -54,6 +57,7 @@
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 required
             >
+            <span id="password-confirm-error" class="text-red-500 text-sm hidden"></span>
         </div>
 
         <!-- Role -->
@@ -67,19 +71,7 @@
             >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
-                <option value="guest">Guest</option>
             </select>
-        </div>
-
-        <!-- Profile Picture -->
-        <div>
-            <label for="profile_pic" class="block text-lg font-semibold text-gray-700 mb-1">Profile Picture</label>
-            <input
-                type="file"
-                id="profile_pic"
-                name="profile_pic"
-                class="w-full px-4 py-2 border rounded-lg focus:outline-none"
-            >
         </div>
 
         <!-- Submit Button -->
@@ -93,4 +85,76 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('register-user-form');
+        const name = document.getElementById('name');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const passwordConfirm = document.getElementById('password_confirmation');
+
+        const nameError = document.getElementById('name-error');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+        const passwordConfirmError = document.getElementById('password-confirm-error');
+
+        const validatePassword = () => {
+            const value = password.value;
+            const rules = [
+                { regex: /.{8,}/, message: 'Password must be at least 8 characters long.' },
+                { regex: /[0-9]/, message: 'Password must contain at least one number.' },
+                { regex: /[!@#$%^&*(),.?":{}|<>]/, message: 'Password must contain at least one special character.' },
+            ];
+
+            const errors = rules.filter(rule => !rule.regex.test(value)).map(rule => rule.message);
+
+            if (errors.length) {
+                passwordError.textContent = errors.join(' ');
+                passwordError.classList.remove('hidden');
+                return false;
+            }
+
+            passwordError.classList.add('hidden');
+            return true;
+        };
+
+        const validateEmailAndName = () => {
+            if (name.value && email.value && name.value.toLowerCase() === email.value.split('@')[0].toLowerCase()) {
+                emailError.textContent = 'Email and Name cannot be the same.';
+                emailError.classList.remove('hidden');
+                return false;
+            }
+
+            emailError.classList.add('hidden');
+            return true;
+        };
+
+        const validatePasswordConfirmation = () => {
+            if (password.value !== passwordConfirm.value) {
+                passwordConfirmError.textContent = 'Passwords do not match.';
+                passwordConfirmError.classList.remove('hidden');
+                return false;
+            }
+
+            passwordConfirmError.classList.add('hidden');
+            return true;
+        };
+
+        form.addEventListener('submit', (event) => {
+            const isPasswordValid = validatePassword();
+            const isEmailAndNameValid = validateEmailAndName();
+            const isPasswordConfirmValid = validatePasswordConfirmation();
+
+            if (!isPasswordValid || !isEmailAndNameValid || !isPasswordConfirmValid) {
+                event.preventDefault();
+            }
+        });
+
+        password.addEventListener('input', validatePassword);
+        email.addEventListener('input', validateEmailAndName);
+        name.addEventListener('input', validateEmailAndName);
+        passwordConfirm.addEventListener('input', validatePasswordConfirmation);
+    });
+</script>
 @endsection

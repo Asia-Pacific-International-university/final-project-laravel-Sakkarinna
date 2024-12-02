@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -30,27 +31,24 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|confirmed|min:8',
-            'role' => 'required|in:user,admin,guest',
-            'profile_pic' => 'nullable|image|max:2048',
+        // Validate the input
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', Rule::in(['admin', 'user'])],
         ]);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->role = $request->role;
+        // Create the user
+        User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'role' => $validatedData['role'],
+        ]);
 
-        if ($request->hasFile('profile_pic')) {
-            $user->profile_picture = $request->file('profile_pic')->store('profile_pictures', 'public');
-        }
-
-        $user->save();
-
-        return redirect()->route('users.index')->with('success', 'User registered successfully.');
+        // Redirect back with success message
+        return redirect()->route('users.register')->with('status', 'User registered successfully!');
     }
 
     public function edit(User $user)

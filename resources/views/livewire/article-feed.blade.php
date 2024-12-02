@@ -13,16 +13,27 @@
         @if(count($articles) > 0)
             @foreach($articles as $article)
                 <div class="bg-white p-3 shadow-md rounded-md hover:shadow-lg transition-shadow duration-300">
+                    <!-- Article Image -->
                     @if ($article['pic_path'])
                         <img src="{{ asset('storage/' . $article['pic_path']) }}" class="w-full h-32 object-cover rounded-md" alt="Article Image">
                     @elseif ($article['pic_url'])
                         <img src="{{ $article['pic_url'] }}" class="w-full h-32 object-cover rounded-md" alt="Article Image">
                     @endif
 
+                    <!-- Author Profile -->
+                    <div class="flex items-center mt-3">
+                        <img
+                            src="{{ $article->user->profile_picture ?? asset('images/default-profile.png') }}"
+                            alt="{{ $article->user->name }}'s profile picture"
+                            class="w-8 h-8 rounded-full border mr-3"
+                        >
+                        <p class="text-sm text-gray-600 font-semibold">{{ $article->user->name }}</p>
+                    </div>
+
+                    <!-- Article Details -->
                     <div class="mt-3">
                         <h5 class="text-md font-semibold">{{ $article['title'] }}</h5>
                         <p class="text-sm text-gray-600 line-clamp-2 mt-2">{{ Str::limit($article['content'], 70) }}</p>
-                        <p class="text-xs text-gray-500 mt-1">By: {{ $article->user->name }}</p>
                         <a href="{{ route('articles.show', $article['id']) }}" class="bg-blue-500 text-white text-sm px-3 py-1 rounded mt-3 inline-block hover:bg-blue-600">Read More</a>
                     </div>
                 </div>

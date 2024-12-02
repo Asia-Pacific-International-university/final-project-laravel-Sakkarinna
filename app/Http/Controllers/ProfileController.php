@@ -78,4 +78,24 @@ class ProfileController extends Controller
 
         return redirect()->route('profile.show')->with('success', 'Profile updated successfully.');
     }
+
+    /**
+     * Assign a random API avatar to the logged-in user's profile_picture.
+     */
+    public function getProfile(): RedirectResponse
+    {
+        $user = Auth::user();
+
+        // Generate a random username and gender
+        $gender = ['boy', 'girl'][array_rand(['boy', 'girl'])]; // Randomly pick 'boy' or 'girl'
+        $username = strtolower(str_replace(' ', '', $user->name)) . rand(100, 999); // Generate a random username
+
+        // Assign the random avatar URL to the user's profile_picture
+        $user->profile_picture = "https://avatar.iran.liara.run/public/{$gender}?username={$username}";
+        $user->save();
+
+        // Redirect back to the same page
+        return redirect()->back()->with('status', 'Profile picture updated successfully!');
+    }
 }
+

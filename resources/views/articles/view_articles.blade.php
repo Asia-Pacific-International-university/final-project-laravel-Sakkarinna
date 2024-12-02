@@ -13,16 +13,26 @@
         <!-- Article Title and Author Info -->
         <div class="mb-6">
             <h1 class="text-4xl font-bold mb-2">{{ $article->title }}</h1>
-            <p class="text-sm text-gray-500">
-                By
-                @if (auth()->check() && auth()->id() === $article->user->id)
-                    <a href="{{ route('profile.show') }}" class="text-blue-600 hover:underline">{{ $article->user->name }}</a>
-                @else
-                    <a href="{{ route('profile.others', $article->user->id) }}" class="text-blue-600 hover:underline">{{ $article->user->name }}</a>
-                @endif
-            </p>
-
-            <p class="text-xs text-gray-400">Published: {{ $article->created_at->format('M d, Y') }}</p>
+            <div class="flex items-center space-x-4">
+                <!-- Author's Profile Picture -->
+                <img
+                    src="{{ $article->user->profile_picture ?? asset('images/default-profile.png') }}"
+                    alt="{{ $article->user->name }}'s profile picture"
+                    class="w-12 h-12 rounded-full border"
+                >
+                <div>
+                    <!-- Author's Name -->
+                    <p class="text-sm text-gray-500">
+                        By
+                        @if (auth()->check() && auth()->id() === $article->user->id)
+                            <a href="{{ route('profile.show') }}" class="text-blue-600 hover:underline">{{ $article->user->name }}</a>
+                        @else
+                            <a href="{{ route('profile.others', $article->user->id) }}" class="text-blue-600 hover:underline">{{ $article->user->name }}</a>
+                        @endif
+                    </p>
+                    <p class="text-xs text-gray-400">Published: {{ $article->created_at->format('M d, Y') }}</p>
+                </div>
+            </div>
         </div>
 
         <!-- Content Section -->
@@ -110,10 +120,28 @@
             <h3 class="text-2xl font-bold mb-6">Comments ({{ $comments->count() }})</h3>
             @foreach ($comments->sortByDesc('likes_count') as $comment)
                 <div class="bg-white shadow-md rounded-lg p-6 mb-4">
-                    <p class="text-gray-800">{{ $comment->content }}</p>
-                    <p class="text-xs text-gray-500 mt-2">By {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}</p>
+                    <div class="flex items-start space-x-4">
+                        <!-- Comment Author Profile Picture -->
+                        <img
+                            src="{{ $comment->user->profile_picture ?? asset('images/default-profile.png') }}"
+                            alt="{{ $comment->user->name }}'s profile picture"
+                            class="w-12 h-12 rounded-full border"
+                        >
+                        <div>
+                            <!-- Comment Content -->
+                            <p class="text-gray-800">{{ $comment->content }}</p>
+                            <!-- Comment Author Name and Time -->
+                            <p class="text-xs text-gray-500 mt-2">
+                                By
+                                <a href="{{ route('profile.others', $comment->user->id) }}" class="text-blue-600 hover:underline">
+                                    {{ $comment->user->name }}
+                                </a>
+                                - {{ $comment->created_at->diffForHumans() }}
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Like Button -->
                     <div class="mt-4">
-                        <!-- Like Comment Button -->
                         <form action="{{ route('like', ['type' => 'comment', 'id' => $comment->id]) }}" method="POST">
                             @csrf
                             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
@@ -124,5 +152,6 @@
                 </div>
             @endforeach
         </div>
+
     </div>
 @endsection
