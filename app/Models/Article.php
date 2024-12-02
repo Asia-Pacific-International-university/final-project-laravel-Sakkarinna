@@ -10,11 +10,9 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'content',
-        'image_url',
-        'user_id'
+        'user_id', 'title', 'content', 'category_id', 'pic_url', 'pic_path', 'vid_url', 'vid_path',
     ];
+
 
     // Relationships
 
@@ -38,6 +36,11 @@ class Article extends Model
         return $this->morphMany(Follow::class, 'followable');
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 
     // Custom Methods
 
@@ -58,8 +61,5 @@ class Article extends Model
         $this->likes()->where('user_id', $user->id)->delete();
     }
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
+
 }

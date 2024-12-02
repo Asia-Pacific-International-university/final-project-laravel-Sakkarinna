@@ -10,28 +10,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FollowController;
 
-
-
-
 // Public routes
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/test', [UserController::class, 'test'])->name('test');
-
-Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
-
-Route::get('/index', [UserController::class, 'index'])->name('index');
-
-Route::get('/api-news', [NewsController::class, 'apiNews'])->name('api.news');
-
-// Guest routes (Registration handled by Breeze)
-Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
-// Route::get('/api-news', [ArticleController::class, 'apiNews'])->name('api.news');
-
-// Authenticated routes
 Route::middleware('auth')->group(function () {
     // Profile routes
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -56,6 +35,25 @@ Route::middleware('auth')->group(function () {
 
 
 });
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/test', [UserController::class, 'test'])->name('test');
+
+Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+
+Route::get('/index', [UserController::class, 'index'])->name('index');
+
+Route::get('/api-news', [NewsController::class, 'apiNews'])->name('api.news');
+
+// Guest routes (Registration handled by Breeze)
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
+// Route::get('/api-news', [ArticleController::class, 'apiNews'])->name('api.news');
+
+// Authenticated routes
+
 
 // Admin routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
