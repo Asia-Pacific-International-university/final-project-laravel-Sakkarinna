@@ -77,7 +77,7 @@
         if (usersTable) {
             const dataTable = new simpleDatatables.DataTable(usersTable, {
                 searchable: true,
-                perPage: 5,
+                perPage: 10,
                 labels: {
                     searchPlaceholder: "Search users...",
                     perPage: "{select} results per page",

@@ -4,12 +4,15 @@
 
 @section('content')
 <div class="container mx-auto mt-8">
-    <h1 class="text-3xl font-bold mb-6">Categories</h1>
+    <!-- Header Section -->
     <div class="flex justify-between items-center mb-6">
-        <div class="dataTable-search-wrapper"></div> <!-- Placeholder for moving the search bar -->
-        <a href="{{ route('categories.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Create Category</a>
+        <h1 class="text-3xl font-bold">Categories</h1>
+        <a href="{{ route('categories.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            Create Category
+        </a>
     </div>
 
+    <!-- Table Section -->
     <div class="overflow-x-auto bg-white rounded-lg shadow-md">
         <table id="selection-table" class="min-w-full divide-y divide-gray-300 table-auto border-collapse border border-gray-300">
             <thead class="bg-gray-100">
@@ -17,7 +20,7 @@
                     <th class="px-6 py-3 text-left text-sm font-bold text-gray-600 tracking-wider">
                         <span class="flex items-center">
                             Name
-                            <svg class="w-4 h-4 ms-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            <svg class="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 15l4 4 4-4M16 9l-4-4-4 4" />
                             </svg>
@@ -26,7 +29,7 @@
                     <th class="px-6 py-3 text-left text-sm font-bold text-gray-600 tracking-wider">
                         <span class="flex items-center">
                             Description
-                            <svg class="w-4 h-4 ms-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            <svg class="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 15l4 4 4-4M16 9l-4-4-4 4" />
                             </svg>
@@ -66,7 +69,7 @@
         if (selectionTable) {
             const dataTable = new simpleDatatables.DataTable(selectionTable, {
                 searchable: true,
-                perPage: 5, // Number of rows per page
+                perPage: 10, // Number of rows per page
                 labels: {
                     searchPlaceholder: "Search categories...",
                     perPage: "{select} results per page",
