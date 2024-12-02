@@ -4,36 +4,39 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Article;
-use Livewire\WithPagination;
 
-
-class NewArticlesFeed extends Component
+class ArticlesFeed extends Component
 {
-    use WithPagination;
+    public $articles = []; // Holds visible articles
+    public $page = 1;      // Tracks the current page
+    public $hasMore = true; // Tracks if more articles are available
 
-    protected $paginationTheme = 'bootstrap';
-
-    public $page = 1; // Tracks the current page for infinite scrolling
-
-    public $hasMore = true;
+    public function mount()
+    {
+        // Load the initial batch of articles
+        $this->loadArticles();
+    }
 
     public function loadMore()
     {
         $this->page++;
-        if (Article::count() <= $this->page * 5) {
+        $this->loadArticles();
+    }
+
+    private function loadArticles()
+    {
+        $newArticles = Article::orderBy('created_at', 'desc')
+            ->paginate(5, ['*'], 'page', $this->page);
+
+        $this->articles = array_merge($this->articles, $newArticles->items());
+
+        if ($newArticles->currentPage() >= $newArticles->lastPage()) {
             $this->hasMore = false;
         }
     }
 
     public function render()
     {
-        $articles = Article::with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(5, ['*'], 'page', $this->page);
-
-        return view('livewire.new-articles-feed', [
-            'articles' => $articles,
-            'hasMore' => $this->hasMore,
-        ]);
+        return view('livewire.articles-feed');
     }
 }

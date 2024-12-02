@@ -1,7 +1,9 @@
 @extends('layouts.layout')
 
-@section('title', 'All Articles')
+@section('title', 'Articles')
 
 @section('content')
-    <livewire:new-articles-feed />
+
+
+    <livewire:articles-feed />
 @endsection
