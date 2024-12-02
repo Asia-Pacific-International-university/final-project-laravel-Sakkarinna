@@ -88,7 +88,7 @@
     </script>
 
     </html>
-    @endsection
+
     @livewireScripts
 </body>
 </html>

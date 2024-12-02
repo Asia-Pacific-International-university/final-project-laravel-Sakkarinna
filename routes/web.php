@@ -18,7 +18,7 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     // Profile routes
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile', [ProfileController::class, 'ownerProfile'])->name('profile.show');
     Route::get('/profile/{user}', [ProfileController::class, 'othersProfile'])->name('profile.others');
@@ -41,15 +41,14 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/test', [UserController::class, 'test'])->name('test');
 
-Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
-Route::get('/index', [UserController::class, 'index'])->name('index');
+
+
+
 
 Route::get('/api-news', [NewsController::class, 'apiNews'])->name('api.news');
 
-// Guest routes (Registration handled by Breeze)
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
 // Route::get('/api-news', [ArticleController::class, 'apiNews'])->name('api.news');
