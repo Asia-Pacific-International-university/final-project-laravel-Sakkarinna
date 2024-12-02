@@ -8,7 +8,8 @@ Sakkarin News is a news aggregation platform designed to provide users with news
 - **Frontend**: Blade template and Tailwindcss.(not implemented yet)
 - **Backend**: Laravel 11
 - **Database**: MySQL
-- **API**: [NewsCatcher News API](https://www.newscatcherapi.com/)
+- **API for news**: [NewsCatcher News API](https://www.newscatcherapi.com/)
+- **API for profile** [Avatar Placeholder](https://avatar-placeholder.iran.liara.run/)
 ## How to run the project
 
 1. Install php and composer on your local machine or follow step in [laravel documentation](https://laravel.com/docs/11.x/installation)
@@ -30,15 +31,16 @@ if it doesn't work
 run
 `php artisan migrate:fresh`
 `php artisan db:seed`
+`php artisan storage:link`
 
 6. Start the server
-run `php artisan serve` and `npm run dev`(not neccessary for now becasue I'm not using tailwind yet) in another terminal
+run `php artisan serve` and `npm run dev` in another terminal
 
 ## Plan
 
- - [Figma](https://www.figma.com/design/f8toJfdBVJL2EC2R4Z5sgR/Sakkarin-News?node-id=0-1&t=AZ8jqd3WcBuDy73q-1).  not done yet
+ - [Figma](https://www.figma.com/design/f8toJfdBVJL2EC2R4Z5sgR/Sakkarin-News?node-id=0-1&t=AZ8jqd3WcBuDy73q-1).  
 
 
 ## Presentation
 
- - [Canva](https://https://www.canva.com/design/DAGWIoyTikI/SrR22nnhVvYg9eSNbcozfA/edit?utm_content=DAGWIoyTikI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton). not done yet
+ - [Canva](https://www.canva.com/design/DAGYKGS1GnQ/Nu4gwq_f9TZj2yq1bAKTVA/edit?utm_content=DAGYKGS1GnQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton). 
