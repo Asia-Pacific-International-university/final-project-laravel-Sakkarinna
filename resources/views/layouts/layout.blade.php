@@ -12,8 +12,23 @@
 <body class="bg-gray-100 h-screen flex flex-col">
     <!-- Navbar -->
     <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
+        <!-- Logo and Title -->
+    <div class="flex items-center space-x-2">
+        <!-- Clickable Logo -->
+        <a href="/">
+            <img src="{{ asset('favicon.ico') }}" alt="Logo" class="h-8 w-8">
+        </a>
         <h1 class="text-lg font-bold">Sakkarin News</h1>
+    </div>
+
+        <!-- Navigation -->
         <nav class="flex space-x-4">
+            <!-- API News Button -->
+            <a href="{{ route('articles.index') }}" class="hover:underline">
+                News
+            </a>
+            <a href="{{ route('api.news') }}" class="hover:underline">API News</a>
+
             @guest
                 <!-- If the user is not logged in -->
                 <a href="{{ route('login') }}" class="hover:underline">Login</a>
@@ -31,6 +46,7 @@
             @endguest
         </nav>
     </header>
+
 
     <!-- Main Content -->
     <main class="flex-grow p-6">

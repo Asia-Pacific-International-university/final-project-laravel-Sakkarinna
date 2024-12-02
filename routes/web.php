@@ -77,9 +77,4 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
-// User routes
-Route::middleware(['auth', 'role:user'])->prefix('user')->group(function () {
-    Route::get('/dashboard', [ArticleController::class, 'index'])->name('user.dashboard');
-});
-
 require __DIR__ . '/auth.php';
