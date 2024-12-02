@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css">
-
+    @livewireStyles
 </head>
 <body class="bg-gray-100 h-screen flex flex-col">
     <!-- Header -->
@@ -88,3 +88,7 @@
     </script>
 
     </html>
+    @endsection
+    @livewireScripts
+</body>
+</html>
