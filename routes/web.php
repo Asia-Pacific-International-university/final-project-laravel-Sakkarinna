@@ -18,11 +18,10 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     // Profile routes
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile', [ProfileController::class, 'ownerProfile'])->name('profile.show');
     Route::get('/profile/{user}', [ProfileController::class, 'othersProfile'])->name('profile.others');
-
     // User-specific actions
     Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy')->middleware('auth');
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');

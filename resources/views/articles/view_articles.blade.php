@@ -14,8 +14,14 @@
         <div class="mb-6">
             <h1 class="text-4xl font-bold mb-2">{{ $article->title }}</h1>
             <p class="text-sm text-gray-500">
-                By <a href="{{ route('profile.others', $article->user->id) }}" class="text-blue-600 hover:underline">{{ $article->user->name }}</a>
+                By
+                @if (auth()->check() && auth()->id() === $article->user->id)
+                    <a href="{{ route('profile.show') }}" class="text-blue-600 hover:underline">{{ $article->user->name }}</a>
+                @else
+                    <a href="{{ route('profile.others', $article->user->id) }}" class="text-blue-600 hover:underline">{{ $article->user->name }}</a>
+                @endif
             </p>
+
             <p class="text-xs text-gray-400">Published: {{ $article->created_at->format('M d, Y') }}</p>
         </div>
 

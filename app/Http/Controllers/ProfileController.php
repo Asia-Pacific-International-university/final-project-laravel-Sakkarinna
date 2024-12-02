@@ -9,18 +9,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\Article;
 
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        return view('profiles.edit_profile');
     }
+
+
 
     /**
      * Delete the user's account.
@@ -50,25 +51,31 @@ class ProfileController extends Controller
         return view('profiles.owner_profile', compact('articles'));
     }
 
+
+
     public function othersProfile(User $user)
     {
-        $articles = $user->articles()->latest()->get();
-        return view('profiles.others_profile', compact('user', 'articles'));
+        $articles = Article::where('user_id', $user->id)->latest()->get();
+
+        return view('profiles.others_profile', [
+            'user' => $user,
+            'articles' => $articles,
+        ]);
     }
+
+
 
     // Update user profile
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email,' . auth()->id(),
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . auth()->id(),
         ]);
 
         $user = auth()->user();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->save();
+        $user->update($request->only(['name', 'email']));
 
-        return redirect()->route('profile.show')->with('success', 'Profile updated successfully');
+        return redirect()->route('profile.show')->with('success', 'Profile updated successfully.');
     }
 }
