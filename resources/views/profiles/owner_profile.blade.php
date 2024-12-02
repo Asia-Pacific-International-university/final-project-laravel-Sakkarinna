@@ -20,7 +20,11 @@
             @foreach($articles as $article)
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <img src="{{ $article->image_url }}" class="card-img-top" alt="Article Image">
+                        @if ($article->pic_path)
+                            <img src="{{ asset('storage/' . $article->pic_path) }}" class="card-img-top" alt="Article Image">
+                        @elseif ($article->pic_url)
+                            <img src="{{ $article->pic_url }}" class="card-img-top" alt="Article Image">
+                        @endif
                         <div class="card-body">
                             <h5 class="card-title">{{ $article->title }}</h5>
                             <p class="card-text">{{ Str::limit($article->content, 100) }}</p>
@@ -28,7 +32,14 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <small class="text-muted">{{ $article->created_at->diffForHumans() }}</small>
-                            <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <div>
+                                <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ route('articles.destroy', $article->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this article?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

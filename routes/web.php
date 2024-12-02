@@ -10,6 +10,10 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FollowController;
 
+Route::get('/', function () {
+    return view('index');
+});
+
 // Public routes
 Route::middleware('auth')->group(function () {
     // Profile routes
@@ -20,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{user}', [ProfileController::class, 'othersProfile'])->name('profile.others');
 
     // User-specific actions
+    Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy')->middleware('auth');
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
@@ -35,9 +40,7 @@ Route::middleware('auth')->group(function () {
 
 
 });
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::get('/test', [UserController::class, 'test'])->name('test');
 

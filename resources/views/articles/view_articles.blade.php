@@ -60,7 +60,18 @@
 
                 <!-- Edit Button (only for the author) -->
                 @if (auth()->check() && auth()->id() == $article->user_id)
-                    <a href="{{ route('articles.edit', ['article' => $article->id]) }}" class="btn btn-warning">Edit</a>
+                    <div class="d-flex">
+                        <a href="{{ route('articles.edit', ['article' => $article->id]) }}" class="btn btn-warning me-2">Edit</a>
+
+                        <!-- Delete Form -->
+                        <form action="{{ route('articles.destroy', $article->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this article?');">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
                 @endif
             </div>
         </div>

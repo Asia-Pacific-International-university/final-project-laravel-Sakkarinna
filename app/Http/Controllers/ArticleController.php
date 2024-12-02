@@ -99,9 +99,19 @@ class ArticleController extends Controller
 
     return redirect()->route('articles.index')->with('success', 'Article created successfully.');
 }
+// app/Http/Controllers/ArticleController.php
 
+public function destroy(Article $article)
+{
+    // Ensure that only the owner of the article can delete it
+    if (auth()->id() !== $article->user_id) {
+        abort(403, 'Unauthorized action.');
+    }
 
+    $article->delete();
 
+    return redirect()->route('profile.show')->with('success', 'Article deleted successfully.');
+}
 
 
 
