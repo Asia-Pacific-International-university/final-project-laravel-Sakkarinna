@@ -26,13 +26,14 @@
 </div>
 
 <script>
-    let scrollTimeout;
+    let timeout;
     document.addEventListener('scroll', function () {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                console.log('Scrolled to bottom');
                 @this.call('loadMore');
             }
-        }, 200); // Debounced to avoid excessive calls
+        }, 150);
     });
 </script>
