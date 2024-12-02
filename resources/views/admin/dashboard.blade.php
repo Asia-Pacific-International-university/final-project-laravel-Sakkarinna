@@ -3,38 +3,26 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
-    <div class="container">
-        <h1>Admin Dashboard</h1>
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-8">Admin Dashboard</h1>
 
-        <div class="row">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Total Users Graph -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Total Users</div>
-                    <div class="card-body">
-                        <canvas id="totalUsersChart"></canvas>
-                    </div>
-                </div>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Total Users</h2>
+                <canvas id="totalUsersChart"></canvas>
             </div>
 
             <!-- Total Contents Graph -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Total Contents</div>
-                    <div class="card-body">
-                        <canvas id="totalContentsChart"></canvas>
-                    </div>
-                </div>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Total Contents</h2>
+                <canvas id="totalContentsChart"></canvas>
             </div>
 
             <!-- Total Categories Graph -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Total Categories</div>
-                    <div class="card-body">
-                        <canvas id="totalCategoriesChart"></canvas>
-                    </div>
-                </div>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Total Categories</h2>
+                <canvas id="totalCategoriesChart"></canvas>
             </div>
         </div>
     </div>
@@ -58,8 +46,17 @@
                     labels: ['Users'],
                     datasets: [{
                         data: [totalUsersData],
-                        backgroundColor: ['#007bff'],
+                        backgroundColor: ['#3b82f6'],
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
                 }
             });
 
@@ -71,8 +68,21 @@
                     labels: ['Articles', 'Comments'],
                     datasets: [{
                         data: [totalContentsData.articles, totalContentsData.comments],
-                        backgroundColor: ['#28a745', '#ffc107'],
+                        backgroundColor: ['#10b981', '#f59e0b'],
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
                 }
             });
 
@@ -84,8 +94,17 @@
                     labels: ['Categories'],
                     datasets: [{
                         data: [totalCategoriesData],
-                        backgroundColor: ['#dc3545'],
+                        backgroundColor: ['#ef4444'],
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
                 }
             });
         });

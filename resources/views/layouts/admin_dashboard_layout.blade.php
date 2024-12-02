@@ -6,6 +6,9 @@
     <title>@yield('title', 'Admin Dashboard')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css">
+
 </head>
 <body class="bg-gray-100 h-screen flex flex-col">
     <!-- Header -->
@@ -72,5 +75,16 @@
             @yield('content')
         </main>
     </div>
-</body>
-</html>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
+    <script src="/node_modules/simple-datatables/dist/simple-datatables.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectionTable = document.getElementById("selection-table");
+            if (selectionTable) {
+                new simpleDatatables.DataTable(selectionTable);
+            }
+        });
+    </script>
+
+    </html>
