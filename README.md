@@ -5,11 +5,13 @@
 Sakkarin News is a news aggregation platform designed to provide users with news from authors that register on the platform and news from external sources like [NewsCatcher News API](https://www.newscatcherapi.com/).
 ## Tech stack
 
-- **Frontend**: Blade template and Tailwindcss.(not implemented yet)
-- **Backend**: Laravel 11
+- **Frontend**: Blade template, Tailwindcss, Livewire
+- **Backend**: Laravel 11, php
 - **Database**: MySQL
 - **API for news**: [NewsCatcher News API](https://www.newscatcherapi.com/)
-- **API for profile** [Avatar Placeholder](https://avatar-placeholder.iran.liara.run/)
+- **API for profile**: [Avatar Placeholder](https://avatar-placeholder.iran.liara.run/)
+- **Libraries**: Chart.js
+
 ## How to run the project
 
 1. Install php and composer on your local machine or follow step in [laravel documentation](https://laravel.com/docs/11.x/installation)
