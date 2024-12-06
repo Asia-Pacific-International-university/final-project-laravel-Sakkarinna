@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Http;
 class ApiNewsFeed extends Component
 {
     public $newsArticles = [];
-    public $page = 1; // Current pagination page
-    public $hasMore = true; // Determines if there are more articles to load
+    public $searchQuery = '';
+    public $fromDate = '';
+    public $toDate = '';
+    public $page = 1;
+    public $hasMore = true;
 
     public function mount()
     {
@@ -23,16 +26,26 @@ class ApiNewsFeed extends Component
         $this->loadArticles();
     }
 
-    private function loadArticles()
+    public function filterArticles($query, $from, $to)
     {
-        // Get the API key from the configuration
-        $apiKey = config('services.newscatcher.api_key');
+        $this->searchQuery = $query;
+        $this->fromDate = $from;
+        $this->toDate = $to;
+        $this->page = 1; // Reset pagination
+        $this->newsArticles = [];
+        $this->loadArticles();
+    }
 
-        // Define the API endpoint and headers
-        $apiUrl = 'https://api.newscatcherapi.com/v2/latest_headlines';
+    public function loadArticles()
+    {
+        $apiKey = config('services.newscatcher.api_key');
+        $apiUrl = 'https://api.newscatcherapi.com/v2/search';
         $queryParams = [
             'countries' => 'US',
             'topic' => 'tech',
+            'q' => $this->searchQuery,
+            'from' => $this->fromDate,
+            'to' => $this->toDate,
             'page' => $this->page,
         ];
 
@@ -46,14 +59,14 @@ class ApiNewsFeed extends Component
             $newArticles = [];
         }
 
-        // Merge new articles with existing ones
         $this->newsArticles = array_merge($this->newsArticles, $newArticles);
 
-        // Check if there are no more articles
         if (count($newArticles) === 0) {
             $this->hasMore = false;
         }
     }
+
+
 
     public function render()
     {

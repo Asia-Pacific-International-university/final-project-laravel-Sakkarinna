@@ -5,20 +5,21 @@
         <a href="{{ route('articles.create') }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Create News</a>
     </div>
 
-    <!-- Search Bar -->
-    <div class="mb-4">
-        <input type="text" id="search-input" class="w-full p-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Search by title, summary, or source...">
-    </div>
+
+    <!-- Search Filters -->
+    <form method="GET" action="{{ route('api.news') }}" class="mb-4 flex flex-wrap gap-4">
+        <input type="text" name="q" value="{{ $searchQuery }}" placeholder="Search by title, summary, or source..." class="w-full md:w-1/3 p-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500">
+        <input type="date" name="from" value="{{ $fromDate }}" class="w-full md:w-1/4 p-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500">
+        <input type="date" name="to" value="{{ $toDate }}" class="w-full md:w-1/4 p-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
+    </form>
 
     <!-- Articles Grid -->
     <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         @if(count($newsArticles) > 0)
             @foreach($newsArticles as $article)
                 <div class="bg-white p-4 shadow-md rounded-md hover:shadow-lg transition-shadow duration-300">
-                    <!-- Article Image -->
-                    <img src="{{ $article['media'] ?? asset('path/to/default-image.jpg') }}" class="w-full h-40 object-cover rounded-md" alt="Article Image">
-
-                    <!-- Article Content -->
+                    <img src="{{ $article['media'] ?? asset('images/default-image.jpg') }}" class="w-full h-40 object-cover rounded-md" alt="Article Image">
                     <div class="mt-3">
                         <h5 class="text-md font-semibold">{{ $article['title'] }}</h5>
                         <p class="text-sm text-gray-600 mt-2 line-clamp-2">{{ \Illuminate\Support\Str::limit($article['summary'] ?? 'No summary available', 100) }}</p>
@@ -29,7 +30,7 @@
                 </div>
             @endforeach
         @else
-            <p class="text-center text-gray-600">No articles available at the moment.</p>
+            <p class="text-center text-gray-600">No articles found for your search.</p>
         @endif
     </div>
 
@@ -64,4 +65,11 @@
     });
 
     // Search Functionality
-    document.getElementById('search-input').addEventListener('
+    document.getElementById('search-button').addEventListener('click', function () {
+    const query = document.querySelector('[name="q"]').value;
+    const fromDate = document.querySelector('[name="from"]').value;
+    const toDate = document.querySelector('[name="to"]').value;
+
+    Livewire.emit('filterArticles', query, fromDate, toDate);
+});
+</script>

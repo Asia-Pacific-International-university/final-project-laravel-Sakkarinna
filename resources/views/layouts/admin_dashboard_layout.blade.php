@@ -104,7 +104,7 @@
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
-    <script src="/node_modules/simple-datatables/dist/simple-datatables.js" defer></script>
+    {{-- <script src="/node_modules/simple-datatables/dist/simple-datatables.js" defer></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Storage;
 class ArticleController extends Controller
 {
     public function index()
-    {
-        $articles = Article::with('user')->get();
+{
+    $articles = Article::with('user')->get();
+    $categories = Category::all();
 
-        return view('articles.all_articles', compact('articles'));
-    }
+    return view('articles.all_articles', compact('articles', 'categories'));
+}
+
 
 
     public function show(Article $article)
