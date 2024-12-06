@@ -17,9 +17,13 @@ class Article extends Model
     // Relationships
 
     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+{
+    return $this->belongsTo(User::class)->withDefault([
+        'name' => 'Anonymous',
+        'profile_picture' => asset('images/default-profile.png'),
+    ]);
+}
+
 
     public function comments()
     {

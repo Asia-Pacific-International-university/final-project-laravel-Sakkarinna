@@ -47,22 +47,24 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($users as $user)
-                <tr class="hover:bg-gray-50 cursor-pointer">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->id }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->name }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-
-                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="inline-block bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-                                onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+                    @if(!\DB::table('deleted_users')->where('email', $user->email)->exists())
+                    <tr class="hover:bg-gray-50 cursor-pointer">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="inline-block bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                                    onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endif
                 @endforeach
             </tbody>
+
         </table>
     </div>
 </div>

@@ -11,18 +11,18 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function test()
-    {
-        $users = User::paginate(50);
+    // public function test()
+    // {
+    //     $users = User::paginate(50);
 
-        return view('test', compact('users'));
-    }
+    //     return view('test', compact('users'));
+    // }
 
     public function index()
-    {
-        $users = User::all();
-        return view('users.all_users', compact('users'));
-    }
+{
+    $users = User::all(); // Fetch only active users
+    return view('users.all_users', compact('users'));
+}
 
     public function create()
     {
@@ -79,11 +79,20 @@ class UserController extends Controller
     }
 
     public function destroy(User $user)
-    {
-        $user->delete();
+{
+    // Save user data to deleted_users table
+    \DB::table('deleted_users')->insert([
+        'name' => $user->name,
+        'email' => $user->email,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
-    }
+    // Delete the user
+    $user->delete();
+
+    return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+}
 
 
     public function like($type, $id)

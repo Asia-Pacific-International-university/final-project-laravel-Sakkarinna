@@ -95,18 +95,18 @@ class User extends Authenticatable
      * Articles that this user is following.
      */
     public function followedArticles()
-{
-    return $this->morphedByMany(
-        Article::class,
-        'followable',
-        'follows',
-        'user_id',
-        'followable_id'
-    )->withPivot('followable_type');
-}
+    {
+        return $this->morphedByMany(
+            Article::class,
+            'followable',
+            'follows',
+            'user_id',
+            'followable_id'
+        )->withPivot('followable_type');
+    }
 
 
-     /**
+    /**
      * Users who follow this user.
      */
     public function followers()
@@ -136,5 +136,11 @@ class User extends Authenticatable
     public function hasLikedComment(Comment $comment): bool
     {
         return $this->likes()->where('likeable_id', $comment->id)->where('likeable_type', Comment::class)->exists();
+    }
+    public function scopeWithoutDeleted($query)
+    {
+        return $query->whereNotIn('email', function ($query) {
+            $query->select('email')->from('deleted_users');
+        });
     }
 }
